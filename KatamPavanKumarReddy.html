@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katam Pavan Kumar Reddy - Product Management Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: The application is designed as a narrative journey for a recruiter, moving from a high-level summary to deep dives into specific competencies and projects. It uses a single-page, multi-section layout with a sticky navigation header. The structure is thematic: 1. Hero/Intro, 2. Core Competencies (Product Ownership, User Research, etc.), 3. Impact Dashboard (visualizing key metrics), 4. Career Journey (interactive timeline), 5. Skills Matrix. This non-linear, thematic structure was chosen over a simple chronological resume to immediately highlight product management skills and quantifiable achievements, which is more effective for capturing a hiring manager's attention. Users can navigate via scrolling or the header, allowing them to explore areas of interest easily. -->
+    <!-- Visualization & Content Choices: 
+        - Professional Summary -> Inform -> Static Text Block -> N/A -> Clear, concise introduction -> HTML/CSS.
+        - Key Competencies (Ownership, Research, Leadership) -> Organize -> Interactive Tabbed Content -> User clicks tabs to reveal detailed descriptions -> Focuses user attention on one skill at a time, preventing information overload -> HTML/CSS/JS.
+        - UX Improvement (40%), Efficiency Gain (25%) -> Compare/Inform -> Two separate Doughnut Charts (Chart.js) -> Hover for details -> Visually impactful and quickly communicates key quantifiable achievements -> Chart.js/Canvas.
+        - Predictive Model Accuracy (81.61%) -> Inform -> Dynamic Stat Card -> N/A -> Highlights a key data science skill relevant to product management -> HTML/CSS.
+        - Career Progression -> Change -> Interactive Vertical Timeline -> Hover/click on timeline points to see details -> Shows growth and progression in a visually engaging way -> HTML/CSS/JS.
+        - Skills Table -> Organize -> Styled Table -> N/A -> Clean and scannable presentation of technical and soft skills -> HTML/Tailwind.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #4A4A4A;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .nav-link {
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #D97706; /* Amber-600 */
+            border-bottom-color: #D97706;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.75rem;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #FDBA74; /* Amber-300 */
+            border: 4px solid #FDFBF8;
+        }
+        .timeline-item:hover::before {
+            background-color: #D97706; /* Amber-600 */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header id="header" class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-xl font-bold text-gray-800">Katam Pavan Kumar Reddy</div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#competencies" class="nav-link font-medium text-gray-600 pb-1">Competencies</a>
+                <a href="#impact" class="nav-link font-medium text-gray-600 pb-1">Impact Dashboard</a>
+                <a href="#journey" class="nav-link font-medium text-gray-600 pb-1">Career Journey</a>
+                <a href="#skills" class="nav-link font-medium text-gray-600 pb-1">Skills</a>
+            </div>
+            <div class="md:hidden">
+                <button id="menu-btn" class="text-gray-600 focus:outline-none">
+                    <span class="text-2xl">&#9776;</span>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="#competencies" class="block py-2 px-4 text-sm hover:bg-gray-100">Competencies</a>
+            <a href="#impact" class="block py-2 px-4 text-sm hover:bg-gray-100">Impact Dashboard</a>
+            <a href="#journey" class="block py-2 px-4 text-sm hover:bg-gray-100">Career Journey</a>
+            <a href="#skills" class="block py-2 px-4 text-sm hover:bg-gray-100">Skills</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+        <section id="hero" class="text-center mb-20">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Aspiring Product Manager</h1>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-600">
+                Analytical and customer-focused professional transitioning from software development to product management. Expertise in leading the full project lifecycle, from user research and requirements gathering to final product launch.
+            </p>
+        </section>
+
+        <section id="competencies" class="mb-20 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Core Competencies</h2>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">This section outlines my core product management competencies. Click on each tab to see how I've applied these skills in real-world scenarios to drive product success and deliver value.</p>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="flex border-b border-gray-200">
+                    <button data-tab="ownership" class="tab-btn flex-1 py-4 px-2 text-center font-semibold text-amber-600 border-b-2 border-amber-600">Product Ownership & Strategy</button>
+                    <button data-tab="research" class="tab-btn flex-1 py-4 px-2 text-center font-semibold text-gray-500">User Research & Requirements</button>
+                    <button data-tab="leadership" class="tab-btn flex-1 py-4 px-2 text-center font-semibold text-gray-500">Cross-Functional Leadership</button>
+                </div>
+                <div class="py-8">
+                    <div id="ownership" class="tab-content">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Product Ownership & Strategy</h3>
+                        <p class="text-gray-600">Owned the end-to-end lifecycle of an automated document generation solution for the P&C insurance domain. My responsibilities ranged from initial problem validation and defining the product vision to overseeing the final launch. This involved translating complex business needs into a strategic roadmap, prioritizing features, and ensuring the product directly addressed key customer communication challenges, ultimately delivering a streamlined and efficient user experience.</p>
+                    </div>
+                    <div id="research" class="tab-content hidden">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">User Research & Requirements Gathering</h3>
+                        <p class="text-gray-600">Conducted comprehensive qualitative user research through targeted surveys and in-depth 1:1 interviews to deeply understand user pain points and needs. This research was instrumental in defining clear, actionable requirements for over five new digital capabilities. By translating customer insights into detailed technical solutions and product features, I ensured that our development efforts were always aligned with genuine user value.</p>
+                    </div>
+                    <div id="leadership" class="tab-content hidden">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">Cross-Functional Leadership</h3>
+                        <p class="text-gray-600">Led a dynamic, cross-functional team of four as the designated subject matter expert. I facilitated seamless collaboration between engineering, design, and business stakeholders, fostering a shared understanding of product goals. By aligning all parties and managing dependencies, I successfully guided the team to deliver the complex project from concept to completion within a demanding six-month timeline.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="impact" class="mb-20 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Impact Dashboard</h2>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">Here are the key metrics from my projects. These visualizations demonstrate my ability to deliver measurable improvements in user experience, operational efficiency, and data-driven decision-making.</p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-12 items-center">
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">User Experience Enhancement</h3>
+                    <div class="chart-container">
+                        <canvas id="uxChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-gray-600">Drove a 40% improvement in solution visibility and user experience through targeted product optimizations.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Operational Efficiency Gain</h3>
+                    <div class="chart-container">
+                        <canvas id="efficiencyChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-gray-600">Championed a 25% reduction in document generation time by optimizing performance.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md text-center h-full flex flex-col justify-center">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-4">Predictive Model Accuracy</h3>
+                    <div class="text-6xl font-bold text-amber-600 my-8">81.61%</div>
+                    <p class="text-gray-600">Achieved high predictive accuracy on a financial forecasting model, enabling reliable, data-informed risk assessment.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="journey" class="mb-20 scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Career Journey</h2>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">This timeline illustrates my professional growth, from building foundational technology to leading product initiatives. Each step has provided valuable experience in the full product development lifecycle.</p>
+            <div class="max-w-2xl mx-auto">
+                <div class="relative border-l-2 border-amber-200 ml-10 pl-10 py-4">
+                    <div class="mb-12 timeline-item">
+                        <p class="font-semibold text-amber-700">July 2024 - Present</p>
+                        <h3 class="text-xl font-bold text-gray-800">Developer</h3>
+                        <p class="text-md font-medium text-gray-600 mb-2">Sapiens, Bengaluru</p>
+                        <p class="text-gray-600">Transitioned to a leadership role, owning product strategy, conducting user research, and leading a cross-functional team to enhance the automated document generation solution.</p>
+                    </div>
+                    <div class="mb-12 timeline-item">
+                        <p class="font-semibold text-amber-700">June 2022 - July 2024</p>
+                        <h3 class="text-xl font-bold text-gray-800">Associate Developer</h3>
+                        <p class="text-md font-medium text-gray-600 mb-2">Sapiens, Bengaluru</p>
+                        <p class="text-gray-600">Engineered the foundational codebase for the document generation product, implementing core business logic and data handling capabilities that enabled future enhancements.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <p class="font-semibold text-amber-700">February 2022 - April 2022</p>
+                        <h3 class="text-xl font-bold text-gray-800">Project Intern</h3>
+                        <p class="text-md font-medium text-gray-600 mb-2">Tata Consultancy Services, Bengaluru</p>
+                        <p class="text-gray-600">Developed a predictive forecasting model by analyzing customer data, providing key insights for financial risk and compliance strategy.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="scroll-mt-20">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-2">Skills Matrix</h2>
+            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">My skill set bridges the gap between technical execution and strategic product thinking, providing a solid foundation for a product management role.</p>
+            <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 border-b-2 border-amber-300 pb-2 mb-4">Product Management</h3>
+                        <ul class="list-disc list-inside text-gray-600 space-y-2">
+                            <li>Agile Methodologies</li>
+                            <li>User Research & Requirement Gathering</li>
+                            <li>Roadmapping & UAT Testing</li>
+                            <li>Stakeholder Management & Jira</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-semibold text-gray-800 border-b-2 border-amber-300 pb-2 mb-4">Technical & Analytical</h3>
+                        <ul class="list-disc list-inside text-gray-600 space-y-2">
+                            <li>Languages: Java, SQL, Python</li>
+                            <li>Analytical Tools: MS Excel, Power BI, Tableau</li>
+                            <li>Domain: Property & Casualty (P&C) Insurance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-white mt-20">
+        <div class="container mx-auto px-6 py-8 text-center text-gray-600">
+            <p>&copy; 2024 Katam Pavan Kumar Reddy. All rights reserved.</p>
+            <p class="mt-2">Built with passion and a focus on product.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuBtn = document.getElementById('menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tab = button.dataset.tab;
+
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('text-amber-600', 'border-amber-600');
+                        btn.classList.add('text-gray-500');
+                    });
+                    button.classList.add('text-amber-600', 'border-amber-600');
+                    button.classList.remove('text-gray-500');
+
+                    tabContents.forEach(content => {
+                        if (content.id === tab) {
+                            content.classList.remove('hidden');
+                        } else {
+                            content.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            const createDoughnutChart = (ctx, label, dataValue, color) => {
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [label, ''],
+                        datasets: [{
+                            data: [dataValue, 100 - dataValue],
+                            backgroundColor: [color, '#F3F4F6'],
+                            borderColor: ['#FFFFFF'],
+                            borderWidth: 4,
+                            hoverBorderColor: '#FFFFFF'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '75%',
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                enabled: false
+                            }
+                        },
+                        animation: {
+                            animateScale: true,
+                            animateRotate: true
+                        }
+                    }
+                });
+            };
+            
+            const uxCtx = document.getElementById('uxChart')?.getContext('2d');
+            if(uxCtx) createDoughnutChart(uxCtx, 'UX Improvement', 40, '#FB923C');
+
+            const efficiencyCtx = document.getElementById('efficiencyChart')?.getContext('2d');
+            if(efficiencyCtx) createDoughnutChart(efficiencyCtx, 'Efficiency Gain', 25, '#FDBA74');
+            
+            const header = document.getElementById('header');
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { rootMargin: "-50% 0px -50% 0px" });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
